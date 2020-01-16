@@ -14,4 +14,4 @@
       在AuthorizeController中，带着AccessTokenDTO去githubprovider中模拟请求
       GithubProvider是一个okhttp的应用，模拟带着AccessTokenDTO解析出来的body去请求https://github.com/login/oauth/access_token
       GitHub确定登录以后，根据body中的URL重定向到登录后的页面，并且返回access_token等内容
-    3.这个access_token可以使人带着GitHub上用户的身份去访问我们自己的网站
+    3.用户带着这个access_token可以到GitHub上获取用户的身份和相关信息返回到我们的网站中
