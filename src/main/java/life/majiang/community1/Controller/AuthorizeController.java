@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class AuthorizeController {
     @Autowired
@@ -26,7 +28,8 @@ public class AuthorizeController {
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
-                           @RequestParam(name="state") String state){
+                           @RequestParam(name="state") String state,
+                           HttpServletRequest request){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         //这是一个模拟登录的过程，实际上，我们在第一次访问github时除了code,其他参数传过去了（index.html)
         //code应该是github为了确认时返回的code（返回页面在GitHub中定义了）
@@ -36,8 +39,14 @@ public class AuthorizeController {
         accessTokenDTO.setClient_secret(clientSecret);
         accessTokenDTO.setRedirect_uri(redirectUri);
         String access_token = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser githubUser = githubProvider.getUser(access_token);
-        System.out.println(githubUser.getName());
-        return "Index";
+        GithubUser user = githubProvider.getUser(access_token);
+        if(user!=null){
+            //登陆成功
+            request.getSession().setAttribute("user",user);
+            return "redirect:/";
+        } else{
+            //登陆失败
+            return "redirect:/";
+        }
     }
 }
