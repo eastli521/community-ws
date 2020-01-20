@@ -16,3 +16,7 @@
 　　　GitHub确定登录以后，根据body中的URL重定向到登录后的页面，并且返回access_token等内容  
 　　3.用户带着这个access_token可以到GitHub上获取用户的身份和相关信息(github->setting->profile中的信息)返回到我们的网站中  
 cookie和session：
+　　在AuthorizeController中，取request中的session并向其中填入githubUser属性，在index.html中取出session中的信息就可以显示到页面上
+mybatis整合：
+　　在pom中引入要使用的数据库依赖，在配置文件application.properties中写入数据库信息以及驱动信息以连接。idea右侧database可以设置数据库信息
+　　idea可以选择内置数据库或者远程连接等连接方法，其中mysql支持远程，h2支持内置

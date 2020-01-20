@@ -2,6 +2,8 @@ package life.majiang.community1.Controller;
 
 import life.majiang.community1.dto.AccessTokenDTO;
 import life.majiang.community1.dto.GithubUser;
+import life.majiang.community1.mapper.UserMapper;
+import life.majiang.community1.model.User;
 import life.majiang.community1.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,11 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
+
+    @Autowired
+    private UserMapper userMapper;
 
     //从配置文件中读取数值，以后修改不需要改代码，只需要改配置文件即可
     @Value("${github.client.id}")
@@ -39,10 +45,17 @@ public class AuthorizeController {
         accessTokenDTO.setClient_secret(clientSecret);
         accessTokenDTO.setRedirect_uri(redirectUri);
         String access_token = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser user = githubProvider.getUser(access_token);
-        if(user!=null){
+        GithubUser githubUser = githubProvider.getUser(access_token);
+        if(githubUser!=null){
             //登陆成功
-            request.getSession().setAttribute("user",user);
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(githubUser.getName());
+            user.setAccoutId(String.valueOf(githubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            userMapper.insert(user);
+            request.getSession().setAttribute("githubUser",githubUser);
             return "redirect:/";
         } else{
             //登陆失败
