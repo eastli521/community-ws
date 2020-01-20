@@ -14,4 +14,8 @@ import org.springframework.stereotype.Repository;
 public interface UserMapper {
     @Insert("insert into user(name, account_id, token, gmt_create, gmt_modified) values(#{name},#{accoutId},#{token},#{gmtCreate},#{gmtModified})")
     void insert(User user);
+
+    @Select("select * from user where token=#{token}")
+    User findByToken(@Param("token") String token);
+    //当传进来的是类的时候可以不加param注解
 }
