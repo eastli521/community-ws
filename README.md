@@ -32,5 +32,5 @@ cookie和session：
 mybatis整合：  
 　　在pom中引入要使用的数据库依赖，在配置文件application.properties中写入数据库信息以及驱动信息以连接。  
 　　idea右侧database可以设置数据库信息，idea可以选择内置数据库或者远程连接等连接方法，其中mysql支持远程，h2支持内置  
-HttpServletRequest和HttpServletResponse:  
-HttpServletRequest是代表客户端的请求，当客户端通过HTTP协议访问服务器时，HTTP请求头中的所有信息都封装在这个对象中，通过这个对象提供的方法，可以获得客户端请求的所有信息
+业务功能：  
+　　publishController,publish.html,QuestionMapper,Question等是实现用户发布问题的功能。
