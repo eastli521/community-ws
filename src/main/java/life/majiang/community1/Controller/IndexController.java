@@ -1,19 +1,31 @@
 package life.majiang.community1.Controller;
 
+import life.majiang.community1.dto.QuestionDTO;
+import life.majiang.community1.mapper.QuestionMapper;
+import life.majiang.community1.model.Question;
 import life.majiang.community1.model.User;
 import life.majiang.community1.mapper.UserMapper;
+import life.majiang.community1.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class IndexController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionService questionService;
 
     /**
      * 这个函数模拟的是服务端处理cookie的过程
@@ -22,12 +34,11 @@ public class IndexController {
      * @return
      */
     @GetMapping("/")
-    public String index(HttpServletRequest request){
+    public String index(HttpServletRequest request,
+                        Model model){
         //之后客户端每次访问服务器都会带着自己被颁发的cookie值
         Cookie[] cookies = request.getCookies();
-        if(cookies == null)
-            return "Index";
-        else{
+        if(cookies!=null && cookies.length!=0){
             for(Cookie cookie:cookies){
                 if("token".equals(cookie.getName())){
                     String token = cookie.getValue();
@@ -40,8 +51,11 @@ public class IndexController {
                     break;
                 }
             }
+            //从数据库查看列表信息
+            List<QuestionDTO> questionDTOList = questionService.list();
+            model.addAttribute("questions",questionDTOList);
             return "Index";
         }
-
+        return "Index";
     }
 }

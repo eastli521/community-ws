@@ -1,59 +1,14 @@
 package life.majiang.community1.model;
 
+import lombok.Data;
+
+@Data
 public class User {
     private Integer id;
     private String name;
-    private String accoutId;
+    private String accountId;
     private String token;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAccoutId() {
-        return accoutId;
-    }
-
-    public void setAccoutId(String accoutId) {
-        this.accoutId = accoutId;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Long getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Long gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Long getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Long gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
+    private String avatarUrl;
     private Long gmtCreate;
     private Long gmtModified;
 }

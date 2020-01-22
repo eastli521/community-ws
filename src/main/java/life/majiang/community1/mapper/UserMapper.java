@@ -12,10 +12,13 @@ import org.springframework.stereotype.Repository;
 // Spring本身提供了一个丰富的并且是与具体的数据访问技术无关的数据访问异常结构，用于封装不同的持久层框架抛出的异常，使得异常独立于底层的框架。
 @Mapper
 public interface UserMapper {
-    @Insert("insert into user(name, account_id, token, gmt_create, gmt_modified) values(#{name},#{accoutId},#{token},#{gmtCreate},#{gmtModified})")
+    @Insert("insert into user(name, account_id, token, gmt_create, gmt_modified, avatar_url) values(#{name},#{accoutId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl})")
     void insert(User user);
 
     @Select("select * from user where token=#{token}")
     User findByToken(@Param("token") String token);
     //当传进来的是类的时候可以不加param注解
+
+    @Select("select * from user where id=#{id}")
+    User findById(@Param("id") Integer creator);
 }

@@ -14,7 +14,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">麻将社区</span>
             </button>
-            <a class="navbar-brand" href="#">麻将社区</a>
+            <a class="navbar-brand" href="/">麻将社区</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -40,13 +40,14 @@
             </ul>
         </div>
     </div>
+</nav>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                 <h2><span class="glyfhicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
                 <hr>
                 <form action="/publish" method="post">
-                    <input type="hidden" name="id" th:value="${id}">
+                    <!-- <input type="hidden" name="id" th:value="${id}"> -->
                     <div class="form-group">
                         <label for="title">问题标题（简单扼要）:</label>
                         <input type="text" class="form-control" th:value="${title}" id="title" name="title"
@@ -55,56 +56,62 @@
                     </div>
                     <div class="form-group" id="question-editor">
                         <label for="description">问题补充 (必填，请参照右侧提示):</label>
-                        <textarea name="description" id="description" th:text="${description}" style="display:none;"
+                        <input type="text" class="form-control" th:value="${description}" id="description" name="description"
+                               placeholder="问题补充……"
+                               autocomplete="off">
+                        <!-- <textarea name="description" id="description" th:text="${description}" style="display:none;"
                                   class="form-control"
                                   cols="30"
-                                  rows="10"></textarea>
+                                  rows="10"></textarea> -->
                     </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            var editor = editormd("question-editor", {
-                                width: "100%",
-                                height: 350,
-                                path: "/js/lib/",
-                                delay: 0,
-                                watch: false,
-                                placeholder: "请输入问题描述",
-                                imageUpload: true,
-                                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                                imageUploadURL: "/file/upload",
-                            });
-                        });
-                    </script>
+                    <!--  <script type="text/javascript">
+                          $(function () {
+                              var editor = editormd("question-editor", {
+                                  width: "100%",
+                                  height: 350,
+                                  path: "/js/lib/",
+                                  delay: 0,
+                                  watch: false,
+                                  placeholder: "请输入问题描述",
+                                  imageUpload: true,
+                                  imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                                  imageUploadURL: "/file/upload",
+                              });
+                          });
+                      </script> -->
                     <div class="form-group">
                         <label for="tag">添加标签:</label>
                         <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
                                autocomplete="off"
                                placeholder="输入标签，以，号分隔"
                                onclick="showSelectTag()">
-                        <div id="select-tag" class="publish-tag-tab">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
-                                    th:class="${selectCategoryStat.first ? 'active':''}">
-                                    <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab"
-                                       data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <div role="tabpanel" th:id="${selectCategory.categoryName}"
-                                     th:each="selectCategory: ${tags}"
-                                     th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
-                                <span>
-                                    <span th:each="selectTag: ${selectCategory.tags}">
-                                    <span class="community-tag" onclick="selectTag(this)"
-                                          th:data-tag="${selectTag}"
-                                          th:text="${' '+selectTag}">
-                                    </span>
+                    </div>
+                    <!--
+                    <div id="select-tag" class="publish-tag-tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
+                                th:class="${selectCategoryStat.first ? 'active':''}">
+                                <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab"
+                                   data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" th:id="${selectCategory.categoryName}"
+                                 th:each="selectCategory: ${tags}"
+                                 th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
+                            <span>
+                                <span th:each="selectTag: ${selectCategory.tags}">
+                                <span class="community-tag" onclick="selectTag(this)"
+                                      th:data-tag="${selectTag}"
+                                      th:text="${' '+selectTag}">
                                 </span>
-                                </span>
-                                </div>
+                            </span>
+                            </span>
                             </div>
                         </div>
                     </div>
+
+                </div>     -->
 
                     <div class="container-fluid main ">
                         <div class="row">
@@ -131,8 +138,9 @@
                 • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
             </div>
         </div>
+        </div>
     </div>
-</nav>
-<div th:insert="~{footer :: foot}"></div>
+<!--
+<div th:insert="~{footer :: foot}"></div> -->
 </body>
 </html>
