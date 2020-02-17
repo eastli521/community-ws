@@ -1,5 +1,6 @@
 package life.majiang.community1.Controller;
 
+import life.majiang.community1.dto.PaginationDTO;
 import life.majiang.community1.dto.QuestionDTO;
 import life.majiang.community1.mapper.QuestionMapper;
 import life.majiang.community1.model.Question;
@@ -38,9 +39,10 @@ public class IndexController {
     public String index(HttpServletRequest request,
                         Model model,
                         @RequestParam(name="page",defaultValue = "1") Integer page,
-                        @RequestParam(name="size", defaultValue = "5") Integer size){
+                        @RequestParam(name="size", defaultValue = "4") Integer size){
         //之后客户端每次访问服务器都会带着自己被颁发的cookie值
         Cookie[] cookies = request.getCookies();
+        System.out.println(cookies);
         if(cookies!=null && cookies.length!=0){
             for(Cookie cookie:cookies){
                 if("token".equals(cookie.getName())){
@@ -55,10 +57,13 @@ public class IndexController {
                 }
             }
             //从数据库查看列表信息
-            List<QuestionDTO> questionDTOList = questionService.list(page, size);
-            model.addAttribute("questions",questionDTOList);
+            PaginationDTO pagination = questionService.list(page, size);
+            model.addAttribute("pagination",pagination);
             return "Index";
         }
+        //从数据库查看列表信息
+        PaginationDTO pagination = questionService.list(page, size);
+        model.addAttribute("pagination",pagination);
         return "Index";
     }
 }
